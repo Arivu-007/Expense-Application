@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Using Phosphor Icons for modern, clean icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="app-container">
+        <header class="app-header">
+            <div>
+                <h1>Expenses</h1>
+                <p class="date-display" id="currentDate">September 12, 2023</p>
+            </div>
+            <div class="balance-card">
+                <span class="label">Total Spent</span>
+                <h2 class="amount" id="totalAmount">$0.00</h2>
+            </div>
+        </header>
+
+        <section class="chart-section">
+            <!-- Simple CSS-based visualization of spending by category -->
+            <div class="spending-bars" id="spendingBars">
+                <!-- Bars will be injected here via JS -->
+            </div>
+        </section>
+
+        <section class="actions-section">
+            <button id="addExpenseBtn" class="primary-btn">
+                <i class="ph ph-plus"></i> Add New
+            </button>
+        </section>
+
+        <section class="transactions-section">
+            <div class="section-header">
+                <h3>Recent Transactions</h3>
+                <div class="header-actions">
+                    <button class="icon-btn danger-hover" id="clearAllBtn" title="Clear All"><i
+                            class="ph ph-trash"></i></button>
+                    <!-- <button class="icon-btn" id="filterBtn"><i class="ph ph-funnel"></i></button> -->
+                </div>
+            </div>
+            <ul class="transaction-list" id="transactionList">
+                <!-- Transactions will be injected here -->
+                <li class="empty-state">
+                    <i class="ph ph-receipt"></i>
+                    <p>No expenses yet. Start tracking!</p>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Modal for adding expense -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>New Expense</h3>
+                <button class="close-btn" id="closeModal"><i class="ph ph-x"></i></button>
+            </div>
+            <form id="expenseForm">
+                <div class="input-group">
+                    <label for="expenseName">Title</label>
+                    <input type="text" id="expenseName" placeholder="e.g. Grocery Shopping" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="expenseAmount">Amount ($)</label>
+                    <input type="number" id="expenseAmount" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="expenseCategory">Category</label>
+                    <div class="category-select" id="categorySelect">
+                        <!-- Category options will be generated -->
+                    </div>
+                    <input type="hidden" id="expenseCategory" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="expenseDate">Date</label>
+                    <input type="date" id="expenseDate" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Save Expense</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
