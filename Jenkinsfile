@@ -9,7 +9,7 @@ pipeline {
 
     environment {
         NODE_VERSION = '18'
-        PATH = "/opt/homebrew/bin:${env.PATH}"
+        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
     }
 
     stages {
@@ -47,7 +47,11 @@ pipeline {
             }
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t expense-application:${BUILD_NUMBER} .'
+                sh '''
+                    export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+                    which docker || echo "Docker not found in PATH"
+                    docker build -t expense-application:${BUILD_NUMBER} .
+                '''
             }
         }
     }
