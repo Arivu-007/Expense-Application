@@ -9,6 +9,7 @@ pipeline {
 
     environment {
         NODE_VERSION = '18'
+        PATH = "/opt/homebrew/bin:${env.PATH}"
     }
 
     stages {
@@ -22,14 +23,21 @@ pipeline {
         stage('Install') {
             steps {
                 echo 'Installing dependencies...'
-                sh 'npm ci'
+                sh '''
+                    export PATH="/opt/homebrew/bin:$PATH"
+                    which npm || echo "npm not found in PATH"
+                    npm ci
+                '''
             }
         }
 
         stage('Validate') {
             steps {
                 echo 'Running validation...'
-                sh 'npm run validate'
+                sh '''
+                    export PATH="/opt/homebrew/bin:$PATH"
+                    npm run validate
+                '''
             }
         }
 
