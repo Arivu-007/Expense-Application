@@ -1,7 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- State Management ---
     const STORAGE_KEY = 'expense_tracker_data';
-    let expenses = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    let expenses = [];
+    try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        expenses = stored ? JSON.parse(stored) : [];
+        if (!Array.isArray(expenses)) expenses = [];
+    } catch (_) {
+        expenses = [];
+    }
 
     // --- Categories Configuration ---
     const categories = [
@@ -137,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function generateID() {
-        return Math.floor(Math.random() * 100000000);
+        return Date.now().toString(36) + Math.random().toString(36).slice(2);
     }
 
     function saveExpenses() {
@@ -223,9 +230,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Create bars
+        const defaultCategory = { name: 'Other', color: '#636e72' };
         Object.keys(categoryTotals).forEach(catId => {
             const amount = categoryTotals[catId];
-            const category = categories.find(c => c.id === catId);
+            const category = categories.find(c => c.id === catId) || defaultCategory;
             const percentage = (amount / totalSpent) * 100;
 
             if (percentage > 0) {
